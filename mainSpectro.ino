@@ -84,8 +84,8 @@ void relogioMenu1(){
  tft.setTextColor(WHITE);
  tft.setTextSize(1);
  tft.setCursor(40, 10);
- tft.print('/');
  tft.print(date,DEC);
+ tft.print('/');
  tft.print(month,DEC);
  tft.print('/');
  tft.print("20");
