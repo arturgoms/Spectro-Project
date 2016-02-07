@@ -44,14 +44,6 @@ void setup()
 
   tft.setRotation(2);
 
- tft.fillScreen(BLACK);
- delay(1);
- tft.fillScreen(BLACK);
-
-  tft.setTextColor(WHITE);
-  tft.setTextSize(1);
-  tft.setCursor(01, 87);
-  tft.print("Arduino Watch");
  Clock.setSecond(00);//Set the second
  Clock.setMinute(8);//Set the minute
  Clock.setHour(13); //Set the hour
@@ -126,12 +118,27 @@ void loop()
 { // display the real-time clock data on the Serial Monitor,
   tft.setCursor(0, 0);
   relogio();
-  delay(60000);
+  delay(1000);
  
   
 
 }
+void segundos() {
+ int second,minute,hour,date,month,year,temperature;
+ second=Clock.getSecond();
+ minute=Clock.getMinute();
+ hour=Clock.getHour(h12, PM);
+ date=Clock.getDate();
+ month=Clock.getMonth(Century);
+ year=Clock.getYear();
+ tft.fillRect(53, 74, 22, 20, BLACK);
+ tft.setTextColor(CYAN);
+ tft.setTextSize(2);
+ tft.setCursor(53, 74);
+ tft.print(second);
+ tft.println();
 
+}
 void horas() {
  int second,minute,hour,date,month,year,temperature;
  second=Clock.getSecond();
@@ -208,7 +215,7 @@ void relogio()
  year=Clock.getYear();
  tft.setRotation(2);
  data();
- delay(1000);
+ segundos();
  horas();
  temp();
 }
