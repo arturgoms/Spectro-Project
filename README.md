@@ -13,7 +13,7 @@ Now we just have `date`, `time`, `temperature`, `barometer` and `altimeter. `<br
 Dependencies
 ------------
 
-The code makes use of the ( for now)
+The code makes use of the ( for now)<br>
 [`sumotoy`](https://github.com/sumotoy/TFT_ILI9163C) - LCD<br>
 [`rodan`](https://github.com/rodan/ds3231) libraries. - RTC ( rename to DS3231 )<br>
 [`adafruit`](https://github.com/adafruit/Adafruit-GFX-Library) - complete ILI9163 Libraries<br>
