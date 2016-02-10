@@ -19,4 +19,14 @@ The code makes use of the ( for now)<br>
 [`adafruit`](https://github.com/adafruit/Adafruit-GFX-Library) - complete ILI9163 Libraries<br>
 [`adafruit`](https://github.com/adafruit/Adafruit-BMP085-Library) - BMP180, <br>libraries.<br>
 
+Modules 
+------------
+
+TFT Display 1,44" ILI9361 <br>
+DS3231 RTC <br>
+BMP180<br>
+Buzzer<br>
+HC-05 Bluetooth <br>
+2x Buttons<br>
+<br>
 Wait for the How to.
