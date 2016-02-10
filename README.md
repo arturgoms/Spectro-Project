@@ -1,10 +1,18 @@
+Spectro Watch DYI
+==========
 
-Spectro | Watch v0.1
+ My first project, a Smarth Watch call Spectro.
+<br>
+IN the future he will can do basically display `date` and `time`, set an `alarm`, ring a `buzzer` when the time comes, `temperature`, `barometer`, `altimeter`, `snooze` and also have `Bluetooth` to communication with phones.
 
-Bem vindo aos primeiros passos com meu projeto.
+<br>
+![project](http://i593.photobucket.com/albums/tt11/Artur_Gomes/Spectro-Watch/1455141467461_zpsjkkdzqil.jpg?t=1455057290)
+http://i593.photobucket.com/albums/tt11/Artur_Gomes/Spectro-Watch/1455141520185_zpstai5szuj.jpg
+Dependencies
+------------
 
-A principio foi usado um Arduino UNO pra fazer os testes, porem me deparei com um problema de tensao, pois o ILI9163 utiliza um pino no 5v e outro no 3v3.
-
-Nesse momento estou testando o circuito no MSP432 que 'e bem mais potente e ja vem com RTC, Buttons e LEDs imbutidos.
-
-ATT
+The code makes use of the ( for now)
+[`sumotoy`](https://github.com/sumotoy/TFT_ILI9163C) - LCD<br>
+[`rodan`](https://github.com/rodan/ds3231) libraries. - RTC ( rename to DS3231 )<br>
+[`adafruit`](https://github.com/adafruit/Adafruit-GFX-Library) - complete ILI9163 Libraries<br>
+[`adafruit`](https://github.com/adafruit/Adafruit-BMP085-Library) - BMP180, <br>libraries
