@@ -4,7 +4,7 @@ Spectro Watch DYI
  My first project, a Smarth Watch call Spectro.
 <br>
 In the future he will can do basically display `date` and `time`, set an `alarm`, ring a `buzzer` when the time comes, `temperature`, `barometer`, `altimeter`, `snooze` and also have `Bluetooth` to communication with phones.<br>
-Now we just have `date`, `time`, `temperature`, `barometer` and `altimeter. `<br>
+For now we just have `date`, `time`, `temperature`, `barometer` and `altimeter. `<br>
 
 <br>
 ![project](http://i593.photobucket.com/albums/tt11/Artur_Gomes/Spectro-Watch/1455141467461_zpsjkkdzqil.jpg?t=1455057290)
