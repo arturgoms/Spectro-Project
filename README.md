@@ -17,6 +17,6 @@ The code makes use of the ( for now)<br>
 [`sumotoy`](https://github.com/sumotoy/TFT_ILI9163C) - LCD<br>
 [`rodan`](https://github.com/rodan/ds3231) libraries. - RTC ( rename to DS3231 )<br>
 [`adafruit`](https://github.com/adafruit/Adafruit-GFX-Library) - complete ILI9163 Libraries<br>
-[`adafruit`](https://github.com/adafruit/Adafruit-BMP085-Library) - BMP180, <br>libraries.
+[`adafruit`](https://github.com/adafruit/Adafruit-BMP085-Library) - BMP180, <br>libraries.<br>
 
 Wait for the How to.
