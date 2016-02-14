@@ -1,4 +1,4 @@
-Spectro Watch DYI
+Spectro Watch DYI v1.0
 =========
 
  My first project, a Smarth Watch call Spectro.
@@ -7,7 +7,8 @@ In the future he will can do basically display `date` and `time`, set an `alarm`
 For now we just have `date`, `time`, `temperature`, `barometer` and `altimeter. `<br>
 
 <br>
-![project](http://i593.photobucket.com/albums/tt11/Artur_Gomes/Spectro-Watch/1455141467461_zpsjkkdzqil.jpg?t=1455057290)
+![project](http://s11.postimg.org/jip8ea4f3/IMG_20160214_152314.jpg)
+![project](http://s11.postimg.org/u6szd4ee7/IMG_20160214_152329.jpg)
 <br>
 <br>
 Dependencies
