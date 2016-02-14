@@ -28,11 +28,15 @@ The code makes use of the ( for now)<br>
 Modules 
 ------------
 
+Arduino Nano 3.0 <br>
 TFT Display 1,44" ILI9361 <br>
 DS3231 RTC <br>
 BMP180<br>
-Buzzer<br>
 HC-05 Bluetooth <br>
-2x Buttons<br>
+4x Buttons<br>
+4x 1k Resistors  <br>
+2x 330 ohms Resistors <br>
+2x 680 ohms Resistors <br>
+
 <br>
 Wait for the How to.
