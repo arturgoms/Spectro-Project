@@ -7,8 +7,13 @@ In the future he will can do basically display `date` and `time`, set an `alarm`
 For now we just have `date`, `time`, `temperature`, `barometer` and `altimeter. `<br>
 
 <br>
-![project](http://s11.postimg.org/jip8ea4f3/IMG_20160214_152314.jpg)
-![project](http://s11.postimg.org/u6szd4ee7/IMG_20160214_152329.jpg)
+Front <br>
+------------
+![project](http://oi66.tinypic.com/1212vj9.jpg)<br>
+
+Back <br>
+------------
+![project](http://i63.tinypic.com/1smutd.jpg)<br>
 <br>
 <br>
 Dependencies
