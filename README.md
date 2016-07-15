@@ -7,6 +7,8 @@ In the future he will can do basically display `date` and `time`, set an `alarm`
 For now we just have `date`, `time`, `temperature`, `barometer`, `altimeter`, `acelerometer` and `gyroscope` all working together with hc05. <br>
 
 THIS PICTURES IS OUTDATED, FOR MORE INFO FOLLOW ME ON TWITTER [`@arturgoms`](https://twitter.com/arturgoms)<br>
+--------------------------------------------------------------------------------------------------------------
+
 <br>
 Front <br>
 ------------
