@@ -1,11 +1,12 @@
-Spectro Watch DYI v1.0
+Spectro Watch DYI v2.0 Alpha
 =========
 
- My first project, a Smarth Watch call Spectro.
+Smarth Watch called Spectro.
 <br>
-In the future he will can do basically display `date` and `time`, set an `alarm`, ring a `buzzer` when the time comes, `temperature`, `barometer`, `altimeter`, `snooze` and also have `Bluetooth` to communication with phones.<br>
-For now we just have `date`, `time`, `temperature`, `barometer` and `altimeter. `<br>
+In the future he will can do basically display `date` and `time`, set an `alarm`, ring a `buzzer` when the time comes, `temperature`, `barometer`, `altimeter`, `snooze`, `acelerometer`, `gyroscope` and also have `Bluetooth` and `ESP8266` to communication with phones and routers.<br>
+For now we just have `date`, `time`, `temperature`, `barometer`, `altimeter`, `acelerometer` and `gyroscope` all working together with hc05. <br>
 
+THIS PICTURES IS OUTDATED, FOR MORE INFO FOLLOW ME ON TWITTER [`@arturgoms`](https://twitter.com/arturgoms)<br>
 <br>
 Front <br>
 ------------
@@ -22,21 +23,23 @@ Dependencies
 The code makes use of the ( for now)<br>
 [`sumotoy`](https://github.com/sumotoy/TFT_ILI9163C) - LCD<br>
 [`rodan`](https://github.com/rodan/ds3231) libraries. - RTC ( rename to DS3231 )<br>
-[`adafruit`](https://github.com/adafruit/Adafruit-GFX-Library) - complete ILI9163 Libraries<br>
 [`adafruit`](https://github.com/adafruit/Adafruit-BMP085-Library) - BMP180, <br>libraries.<br>
 
 Modules 
 ------------
 
-Arduino Nano 3.0 <br>
+Teensy 3.2 o/ <br>
 TFT Display 1,44" ILI9361 <br>
-DS3231 RTC <br>
+DS3231 RTC (for now) <br>
 BMP180<br>
 HC-05 Bluetooth <br>
-4x Buttons<br>
-4x 1k Resistors  <br>
-2x 330 ohms Resistors <br>
-2x 680 ohms Resistors <br>
+MPU6050 <br>
+Micro SD Reader <br>
+ESP8266 01 <br>
+Recharge Module <br>
+Lipo Battery <br>
+5x Buttons<br>
+5x 680 ohms Resistors <br>
 
 <br>
 Wait for the How to.
