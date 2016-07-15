@@ -6,7 +6,7 @@ Smarth Watch called Spectro.
 In the future he will can do basically display `date` and `time`, set an `alarm`, ring a `buzzer` when the time comes, `temperature`, `barometer`, `altimeter`, `snooze`, `acelerometer`, `gyroscope` and also have `Bluetooth` and `ESP8266` to communication with phones and routers.<br>
 For now we just have `date`, `time`, `temperature`, `barometer`, `altimeter`, `acelerometer` and `gyroscope` all working together with hc05. <br>
 
-THIS PICTURES IS OUTDATED, FOR MORE INFO FOLLOW ME ON TWITTER [`@arturgoms`](https://twitter.com/arturgoms)<br>
+THIS PICTURES IS OUTDATED, FOLLOW ME ON TWITTER [`@arturgoms`](https://twitter.com/arturgoms)<br>
 --------------------------------------------------------------------------------------------------------------
 
 <br>
