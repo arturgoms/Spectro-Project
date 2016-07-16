@@ -461,7 +461,7 @@ void notification(){
         tft.setCursor(CENTER, 108);
         tft.setTextScale(2);
         tft.setTextColor(WHITE);
-        tft.print("OK");
+        tft.print("Time Set");
         stadoNotifc = 1;
         }else{
         }
