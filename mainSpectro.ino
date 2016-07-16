@@ -113,13 +113,14 @@ void setup() {
   tft.fillRect(4, 25, 120, 60, BLACK);
   tft.fillRect(3, 105, 122, 20, BLACK);
   stadoDisplay = 0;
+  
 }
 void loop(void) {
 
   rtc();
   home2();
   home3();
-  notification();
+  
 
   
   
@@ -160,6 +161,10 @@ lastStateeBtn=stateeBtn;
 lastStatelBtn=statelBtn;
 
 }
+void eraseNotifc(){
+  tft.fillRect(1, 105, 126, 20, BLACK);
+}
+
 
 void rtc(void) {
   
@@ -183,6 +188,7 @@ void rtc(void) {
   #endif
 
 
+      
     i++;
     if (i==5){
       eraseNotifc();
@@ -192,7 +198,7 @@ void rtc(void) {
 
               Serial.println(buff);
               prev = now;
-                            if (stadoDisplay == 0){
+          if (stadoDisplay == 0){
               tft.fillRect(24, 39, 80, 45, BLACK);
               
               
@@ -285,27 +291,31 @@ void parse_cmd(char *cmd, int cmdsize)
         Serial.println("OK");
         stadoNotifc = 0;
         indexNotifc = 1;
+        notification();
+        
     } else if (cmd[0] == 49 && cmdsize == 1) {  // "1" get alarm 1
         DS3231_get_a1(&buff[0], 59);
+        DS3231_get_a1(&notifc[0], 59);
         Serial.println(buff);
-        notifc == buff;
+        stadoNotifc = 0;
         indexNotifc = 2;
+        notification();
+        
     } else if (cmd[0] == 50 && cmdsize == 1) {  // "2" get alarm 1
         DS3231_get_a2(&buff[0], 59);
+        DS3231_get_a2(&notifc[0], 59);
         Serial.println(buff);
-        tft.fillRect(3, 105, 122, 20, WHITE);
-        tft.setCursor(CENTER, 108);
-        tft.setTextScale(1);
-        tft.setTextColor(BLACK);
-        tft.print(buff);
+        stadoNotifc = 0;
+        indexNotifc = 3;
+        notification();
+        
     } else if (cmd[0] == 51 && cmdsize == 1) {  // "3" get aging register
         Serial.print("aging reg is ");
         Serial.println(DS3231_get_aging(), DEC);
-        tft.fillRect(3, 105, 122, 20, WHITE);
-        tft.setCursor(CENTER, 108);
-        tft.setTextColor(BLACK);
-        tft.setTextScale(1);
-        tft.print(DS3231_get_aging(), DEC);
+        stadoNotifc = 0;
+        indexNotifc = 4;
+        notification();
+        
     } else if (cmd[0] == 65 && cmdsize == 9) {  // "A" set alarm 1
         DS3231_set_creg(DS3231_INTCN | DS3231_A1IE);
         //ASSMMHHDD
@@ -456,18 +466,35 @@ void notification(){
         }else{
         }
   }else if (indexNotifc == 2){
-
+        if (stadoNotifc == 0){
         tft.setCursor(CENTER, 108);
         tft.setTextScale(1);
-        tft.setTextColor(BLACK);
+        tft.setTextColor(WHITE);
         tft.print(notifc);
-  }
+        stadoNotifc = 1;
+        }else{
+        }
+  }else if (indexNotifc == 3){
+        if (stadoNotifc == 0){
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(1);
+        tft.setTextColor(WHITE);
+        tft.print(notifc);
+        stadoNotifc = 1;
+        }else{
+        }
+  }else if(indexNotifc == 4){
+        if (stadoNotifc == 0){
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(1);
+        tft.setTextColor(WHITE);
+        tft.print(DS3231_get_aging(), DEC);
+        stadoNotifc = 1;
+        }else{
+        }
+  
+}
 }
 
-void mainHome(){
 
-}
 
-void eraseNotifc(){
-  tft.fillRect(3, 105, 122, 20, BLACK);
-}
