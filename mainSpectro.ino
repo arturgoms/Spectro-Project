@@ -43,6 +43,11 @@ int stateeBtn;
 int lastStateeBtn;
 int staterBtn;
 int lastStaterBtn;
+int stadoDisplay;
+int indexNotifc = 0;
+char notifc[BUFF_MAX];
+int stadoNotifc;
+int i = 0;
 // End
 
 //MPU-6050
@@ -106,12 +111,18 @@ void setup() {
   Serial.println("OK, Starting!");
   
   tft.fillRect(4, 25, 120, 60, BLACK);
-  
-
+  tft.fillRect(3, 105, 122, 20, BLACK);
+  stadoDisplay = 0;
 }
 void loop(void) {
 
   rtc();
+  home2();
+  home3();
+  notification();
+
+  
+  
   staterBtn = digitalRead(rBtn);
   stateeBtn = digitalRead(eBtn);
   statelBtn = digitalRead(lBtn);
@@ -122,7 +133,7 @@ void loop(void) {
        
        lol = 1;
      }
-
+     stadoDisplay++;
      Serial.println("Botao direito pressionado");
   }
   if(stateeBtn==1 && lastStateeBtn==0)
@@ -140,7 +151,7 @@ void loop(void) {
        
        lol = 1;
      }
-
+     stadoDisplay--;
      Serial.println("Botao esquerdo pressionado");
   }
 
@@ -171,29 +182,64 @@ void rtc(void) {
                t.mon, t.mday, t.hour, t.min, t.sec);
   #endif
 
+
+    i++;
+    if (i==5){
+      eraseNotifc();
+      i = 0;
+    }
       // SHOW HOME SCREEN
 
               Serial.println(buff);
               prev = now;
-              tft.fillRect(24, 25, 80, 60, BLACK);
-              tft.setCursor(25, 40);
+                            if (stadoDisplay == 0){
+              tft.fillRect(24, 39, 80, 45, BLACK);
+              
+              
+              if (t.hour<10) {
+                tft.setCursor(26, 40);
+                tft.setTextScale(3);
+                tft.setTextColor(WHITE);
+                tft.print("0");
+                tft.setCursor(44, 40);
+                tft.setTextScale(3);
+                tft.setTextColor(WHITE);
+                tft.print(t.hour);
+              }else{
+              tft.setCursor(26, 40);
               tft.setTextScale(3);
               tft.setTextColor(WHITE);
               tft.print(t.hour);
+              }
+              tft.setCursor(63, 40);
               tft.print(":");
-              tft.setCursor(69, 40);
+              if (t.min <10) {
+                tft.setCursor(70, 40);
+                tft.setTextScale(3);
+                tft.setTextColor(WHITE);
+                tft.print("0");                
+                tft.setCursor(88, 40);
+                tft.setTextScale(3);
+                tft.setTextColor(WHITE);
+                tft.print(t.min);  
+              }else{
+              tft.setCursor(70, 40);
               tft.setTextScale(3);
               tft.setTextColor(WHITE);
               tft.print(t.min);
-              tft.setCursor(55, 70);
+              }
+              tft.setCursor(CENTER, 70);
               tft.setTextScale(2);
               tft.setTextColor(WHITE);
               tft.print(t.sec);
-              tft.setTextScale(1);
-              tft.setCursor(40, 115);
-              tft.setTextColor(WHITE);
-              tft.println("Artur Gomes.");
-      }
+              
+              }else{
+                
+              
+             
+            }
+
+        }
 
       if (Serial.available() > 0) {
           in = Serial.read();
@@ -222,6 +268,9 @@ void parse_cmd(char *cmd, int cmdsize)
     char buff[BUFF_MAX];
     struct ts t;
 
+    //snprintf(buff, BUFF_MAX, "cmd was '%s' %d\n", cmd, cmdsize);
+    //Serial.print(buff);
+
     // TssmmhhWDDMMYYYY aka set time
     if (cmd[0] == 84 && cmdsize == 16) {
         //T355720619112011
@@ -234,15 +283,29 @@ void parse_cmd(char *cmd, int cmdsize)
         t.year = inp2toi(cmd, 12) * 100 + inp2toi(cmd, 14);
         DS3231_set(t);
         Serial.println("OK");
+        stadoNotifc = 0;
+        indexNotifc = 1;
     } else if (cmd[0] == 49 && cmdsize == 1) {  // "1" get alarm 1
         DS3231_get_a1(&buff[0], 59);
         Serial.println(buff);
+        notifc == buff;
+        indexNotifc = 2;
     } else if (cmd[0] == 50 && cmdsize == 1) {  // "2" get alarm 1
         DS3231_get_a2(&buff[0], 59);
         Serial.println(buff);
+        tft.fillRect(3, 105, 122, 20, WHITE);
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(1);
+        tft.setTextColor(BLACK);
+        tft.print(buff);
     } else if (cmd[0] == 51 && cmdsize == 1) {  // "3" get aging register
         Serial.print("aging reg is ");
         Serial.println(DS3231_get_aging(), DEC);
+        tft.fillRect(3, 105, 122, 20, WHITE);
+        tft.setCursor(CENTER, 108);
+        tft.setTextColor(BLACK);
+        tft.setTextScale(1);
+        tft.print(DS3231_get_aging(), DEC);
     } else if (cmd[0] == 65 && cmdsize == 9) {  // "A" set alarm 1
         DS3231_set_creg(DS3231_INTCN | DS3231_A1IE);
         //ASSMMHHDD
@@ -253,6 +316,11 @@ void parse_cmd(char *cmd, int cmdsize)
         DS3231_set_a1(time[0], time[1], time[2], time[3], flags);
         DS3231_get_a1(&buff[0], 59);
         Serial.println(buff);
+        tft.fillRect(3, 105, 122, 20, WHITE);
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(1);
+        tft.setTextColor(BLACK);
+        tft.print(buff);
     } else if (cmd[0] == 66 && cmdsize == 7) {  // "B" Set Alarm 2
         DS3231_set_creg(DS3231_INTCN | DS3231_A2IE);
         //BMMHHDD
@@ -263,13 +331,28 @@ void parse_cmd(char *cmd, int cmdsize)
         DS3231_set_a2(time[0], time[1], time[2], flags);
         DS3231_get_a2(&buff[0], 59);
         Serial.println(buff);
+        tft.fillRect(3, 105, 122, 20, WHITE);
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(1);
+        tft.setTextColor(BLACK);
+        tft.print(buff);
     } else if (cmd[0] == 67 && cmdsize == 1) {  // "C" - get temperature register
         Serial.print("temperature reg is ");
         Serial.println(DS3231_get_treg(), DEC);
+        tft.fillRect(3, 105, 122, 20, WHITE);
+        tft.setCursor(CENTER, 108);
+        tft.setTextColor(BLACK);
+        tft.setTextScale(1);
+        tft.print(DS3231_get_treg(), DEC);
     } else if (cmd[0] == 68 && cmdsize == 1) {  // "D" - reset status register alarm flags
         reg_val = DS3231_get_sreg();
         reg_val &= B11111100;
         DS3231_set_sreg(reg_val);
+        tft.fillRect(3, 105, 122, 20, WHITE);
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(1);
+        tft.setTextColor(BLACK);
+        tft.print("Status Reseted");
     } else if (cmd[0] == 70 && cmdsize == 1) {  // "F" - custom fct
         reg_val = DS3231_get_addr(0x5);
         Serial.print("orig ");
@@ -289,28 +372,36 @@ void parse_cmd(char *cmd, int cmdsize)
 }
 
 void home2(){
-while(1){
-Serial.print("Temperature = ");
-Serial.print(bmp.readTemperature());
-Serial.println(" *C");
-Serial.print("Pressure = ");
-Serial.print(bmp.readPressure());
-Serial.println(" Pa");
-Serial.print("Altitude = ");
-Serial.print(bmp.readAltitude());
-Serial.println(" meters");
-Serial.print("Pressure at sealevel (calculated) = ");
-Serial.print(bmp.readSealevelPressure());
-Serial.println(" Pa");
-Serial.print("Real altitude = ");
-Serial.print(bmp.readAltitude(101500));
-Serial.println(" meters");
-Serial.println();
-delay(500);
+        Serial.print("Temperature = ");
+        Serial.print(bmp.readTemperature());
+        Serial.println(" *C");
+        Serial.print("Pressure = ");
+        Serial.print(bmp.readPressure());
+        Serial.println(" Pa");
+        Serial.print("Altitude = ");
+        Serial.print(bmp.readAltitude());
+        Serial.println(" meters");
+        Serial.print("Pressure at sealevel (calculated) = ");
+        Serial.print(bmp.readSealevelPressure());
+        Serial.println(" Pa");
+        Serial.print("Real altitude = ");
+        Serial.print(bmp.readAltitude(101500));
+        Serial.println(" meters");
+        Serial.println();
+if (stadoDisplay == 1){
+              tft.fillRect(24, 25, 80, 60, BLACK);
+              tft.setCursor(25, 40);
+              tft.setTextScale(3);
+              tft.setTextColor(WHITE);
+              tft.print(bmp.readTemperature());
+              delay(1000);
+}else{
+  
 }
+
 }
 void home3 (){
-  while(1){
+
 Wire.beginTransmission(MPU);
 Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
 Wire.endTransmission(false);
@@ -339,8 +430,44 @@ Serial.print(" | GyX = "); Serial.print(GyX);
 Serial.print(" | GyY = "); Serial.print(GyY);
 //Envia valor Z do giroscopio para a serial e o LCD
 Serial.print(" | GyZ = "); Serial.println(GyZ);
+if (stadoDisplay == -1){
+              tft.fillRect(24, 25, 80, 60, BLACK);
+              tft.setCursor(25, 40);
+              tft.setTextScale(3);
+              tft.setTextColor(WHITE);
+              tft.print(AcX);
+              delay(1000);
+ 
+}else{
+  
+}
 
-//Aguarda 300 ms e reinicia o processo
-delay(300);
+}
+
+void notification(){
+
+  if (indexNotifc == 1){
+        if (stadoNotifc == 0){
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(2);
+        tft.setTextColor(WHITE);
+        tft.print("OK");
+        stadoNotifc = 1;
+        }else{
+        }
+  }else if (indexNotifc == 2){
+
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(1);
+        tft.setTextColor(BLACK);
+        tft.print(notifc);
   }
+}
+
+void mainHome(){
+
+}
+
+void eraseNotifc(){
+  tft.fillRect(3, 105, 122, 20, BLACK);
 }
