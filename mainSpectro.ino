@@ -109,21 +109,21 @@ void setup() {
   //End
   delay(1000);
   Serial.println("OK, Starting!");
-  
+
   tft.fillRect(4, 25, 120, 60, BLACK);
   tft.fillRect(3, 105, 122, 20, BLACK);
   stadoDisplay = 0;
-  
+
 }
 void loop(void) {
 
   rtc();
   home2();
   home3();
-  
 
-  
-  
+
+
+
   staterBtn = digitalRead(rBtn);
   stateeBtn = digitalRead(eBtn);
   statelBtn = digitalRead(lBtn);
@@ -131,7 +131,7 @@ void loop(void) {
   if(staterBtn==1 && lastStaterBtn==0)
   {
       if ( lol != 1){
-       
+
        lol = 1;
      }
      stadoDisplay++;
@@ -140,7 +140,7 @@ void loop(void) {
   if(stateeBtn==1 && lastStateeBtn==0)
   {
       if ( lol != 1){
-       
+
        lol = 1;
      }
 
@@ -149,7 +149,7 @@ void loop(void) {
   if(statelBtn==1 && lastStatelBtn==0)
   {
       if ( lol != 1){
-       
+
        lol = 1;
      }
      stadoDisplay--;
@@ -167,7 +167,7 @@ void eraseNotifc(){
 
 
 void rtc(void) {
-  
+
 
       char in;
       char buff[BUFF_MAX];
@@ -188,7 +188,7 @@ void rtc(void) {
   #endif
 
 
-      
+
     i++;
     if (i==5){
       eraseNotifc();
@@ -200,8 +200,8 @@ void rtc(void) {
               prev = now;
           if (stadoDisplay == 0){
               tft.fillRect(24, 39, 80, 45, BLACK);
-              
-              
+
+
               if (t.hour<10) {
                 tft.setCursor(26, 40);
                 tft.setTextScale(3);
@@ -223,11 +223,11 @@ void rtc(void) {
                 tft.setCursor(70, 40);
                 tft.setTextScale(3);
                 tft.setTextColor(WHITE);
-                tft.print("0");                
+                tft.print("0");
                 tft.setCursor(88, 40);
                 tft.setTextScale(3);
                 tft.setTextColor(WHITE);
-                tft.print(t.min);  
+                tft.print(t.min);
               }else{
               tft.setCursor(70, 40);
               tft.setTextScale(3);
@@ -238,11 +238,11 @@ void rtc(void) {
               tft.setTextScale(2);
               tft.setTextColor(WHITE);
               tft.print(t.sec);
-              
+
               }else{
-                
-              
-             
+
+
+
             }
 
         }
@@ -292,7 +292,7 @@ void parse_cmd(char *cmd, int cmdsize)
         stadoNotifc = 0;
         indexNotifc = 1;
         notification();
-        
+
     } else if (cmd[0] == 49 && cmdsize == 1) {  // "1" get alarm 1
         DS3231_get_a1(&buff[0], 59);
         DS3231_get_a1(&notifc[0], 59);
@@ -300,7 +300,7 @@ void parse_cmd(char *cmd, int cmdsize)
         stadoNotifc = 0;
         indexNotifc = 2;
         notification();
-        
+
     } else if (cmd[0] == 50 && cmdsize == 1) {  // "2" get alarm 1
         DS3231_get_a2(&buff[0], 59);
         DS3231_get_a2(&notifc[0], 59);
@@ -308,14 +308,14 @@ void parse_cmd(char *cmd, int cmdsize)
         stadoNotifc = 0;
         indexNotifc = 3;
         notification();
-        
+
     } else if (cmd[0] == 51 && cmdsize == 1) {  // "3" get aging register
         Serial.print("aging reg is ");
         Serial.println(DS3231_get_aging(), DEC);
         stadoNotifc = 0;
         indexNotifc = 4;
         notification();
-        
+
     } else if (cmd[0] == 65 && cmdsize == 9) {  // "A" set alarm 1
         DS3231_set_creg(DS3231_INTCN | DS3231_A1IE);
         //ASSMMHHDD
@@ -326,11 +326,9 @@ void parse_cmd(char *cmd, int cmdsize)
         DS3231_set_a1(time[0], time[1], time[2], time[3], flags);
         DS3231_get_a1(&buff[0], 59);
         Serial.println(buff);
-        tft.fillRect(3, 105, 122, 20, WHITE);
-        tft.setCursor(CENTER, 108);
-        tft.setTextScale(1);
-        tft.setTextColor(BLACK);
-        tft.print(buff);
+        stadoNotifc = 0;
+        indexNotifc = 5;
+        notification();
     } else if (cmd[0] == 66 && cmdsize == 7) {  // "B" Set Alarm 2
         DS3231_set_creg(DS3231_INTCN | DS3231_A2IE);
         //BMMHHDD
@@ -406,7 +404,7 @@ if (stadoDisplay == 1){
               tft.print(bmp.readTemperature());
               delay(1000);
 }else{
-  
+
 }
 
 }
@@ -447,9 +445,9 @@ if (stadoDisplay == -1){
               tft.setTextColor(WHITE);
               tft.print(AcX);
               delay(1000);
- 
+
 }else{
-  
+
 }
 
 }
@@ -492,9 +490,6 @@ void notification(){
         stadoNotifc = 1;
         }else{
         }
-  
+
 }
 }
-
-
-
