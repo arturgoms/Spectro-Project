@@ -205,54 +205,54 @@ void rtc(void) {
               Serial.println(buff);
               prev = now;
           if (stadoDisplay == 0){
-              tft.fillRect(24, 39, 80, 45, BLACK);
+              tft.fillRect(24, 49, 80, 45, BLACK);
 
-              tft.setCursor(41, 25);
+              tft.setCursor(41, 35);
               tft.setTextScale(1);
               tft.setTextColor(WHITE);
               tft.print(t.mon);
-              tft.setCursor(CENTER, 20);
+              tft.setCursor(CENTER, 30);
               tft.setTextScale(2);
               tft.setTextColor(WHITE);
               tft.print(t.mday);
-              tft.setCursor(78, 25);
+              tft.setCursor(78, 35);
               tft.setTextScale(1);
               tft.setTextColor(WHITE);
               tft.print(t.year);
 
               if (t.hour<10) {
-                tft.setCursor(26, 40);
+                tft.setCursor(26, 50);
                 tft.setTextScale(3);
                 tft.setTextColor(WHITE);
                 tft.print("0");
-                tft.setCursor(44, 40);
+                tft.setCursor(44, 50);
                 tft.setTextScale(3);
                 tft.setTextColor(WHITE);
                 tft.print(t.hour);
               }else{
-              tft.setCursor(26, 40);
+              tft.setCursor(26, 50);
               tft.setTextScale(3);
               tft.setTextColor(WHITE);
               tft.print(t.hour);
               }
-              tft.setCursor(63, 40);
+              tft.setCursor(63, 50);
               tft.print(":");
               if (t.min <10) {
-                tft.setCursor(70, 40);
+                tft.setCursor(70, 50);
                 tft.setTextScale(3);
                 tft.setTextColor(WHITE);
                 tft.print("0");
-                tft.setCursor(88, 40);
+                tft.setCursor(88, 50);
                 tft.setTextScale(3);
                 tft.setTextColor(WHITE);
                 tft.print(t.min);
               }else{
-              tft.setCursor(70, 40);
+              tft.setCursor(70, 50);
               tft.setTextScale(3);
               tft.setTextColor(WHITE);
               tft.print(t.min);
               }
-              tft.setCursor(CENTER, 70);
+              tft.setCursor(CENTER, 80);
               tft.setTextScale(2);
               tft.setTextColor(WHITE);
               tft.print(t.sec);
