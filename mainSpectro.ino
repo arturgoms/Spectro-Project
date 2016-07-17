@@ -197,16 +197,19 @@ void rtc(void) {
     }
       // SHOW HOME SCREEN
 
-
+              tft.fillRect(55, 6, 20, 10, BLACK);
               tft.drawCircle(57, 10, 2, 0xFFFF);
               tft.fillCircle(64, 10, 2, 0xFFFF);
               tft.drawCircle(71, 10, 2, 0xFFFF);
+              tft.fillTriangle(7, 110, 12, 100, 12, 120, 0xFFFF);
+              tft.fillTriangle(120, 110, 115, 100, 115, 120, 0xFFFF);
+
 
               Serial.println(buff);
               prev = now;
           if (stadoDisplay == 0){
+              tft.fillRect(40, 29, 60, 15, BLACK);
               tft.fillRect(24, 49, 80, 45, BLACK);
-
               tft.setCursor(41, 35);
               tft.setTextScale(1);
               tft.setTextColor(WHITE);
