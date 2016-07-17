@@ -48,6 +48,7 @@ int indexNotifc = 0;
 char notifc[BUFF_MAX];
 int stadoNotifc;
 int i = 0;
+uint8_t reg_gval;
 // End
 
 //MPU-6050
@@ -325,6 +326,7 @@ void parse_cmd(char *cmd, int cmdsize)
         uint8_t flags[5] = { 0, 0, 0, 0, 0 };
         DS3231_set_a1(time[0], time[1], time[2], time[3], flags);
         DS3231_get_a1(&buff[0], 59);
+        DS3231_get_a1(&notifc[0], 59);
         Serial.println(buff);
         stadoNotifc = 0;
         indexNotifc = 5;
@@ -339,43 +341,48 @@ void parse_cmd(char *cmd, int cmdsize)
         DS3231_set_a2(time[0], time[1], time[2], flags);
         DS3231_get_a2(&buff[0], 59);
         Serial.println(buff);
-        tft.fillRect(3, 105, 122, 20, WHITE);
-        tft.setCursor(CENTER, 108);
-        tft.setTextScale(1);
-        tft.setTextColor(BLACK);
-        tft.print(buff);
+        DS3231_get_a2(&notifc[0], 59);
+        stadoNotifc = 0;
+        indexNotifc = 6;
+        notification();
     } else if (cmd[0] == 67 && cmdsize == 1) {  // "C" - get temperature register
         Serial.print("temperature reg is ");
         Serial.println(DS3231_get_treg(), DEC);
-        tft.fillRect(3, 105, 122, 20, WHITE);
-        tft.setCursor(CENTER, 108);
-        tft.setTextColor(BLACK);
-        tft.setTextScale(1);
-        tft.print(DS3231_get_treg(), DEC);
+        stadoNotifc = 0;
+        indexNotifc = 7;
+        notification();
     } else if (cmd[0] == 68 && cmdsize == 1) {  // "D" - reset status register alarm flags
         reg_val = DS3231_get_sreg();
         reg_val &= B11111100;
         DS3231_set_sreg(reg_val);
-        tft.fillRect(3, 105, 122, 20, WHITE);
-        tft.setCursor(CENTER, 108);
-        tft.setTextScale(1);
-        tft.setTextColor(BLACK);
-        tft.print("Status Reseted");
+        stadoNotifc = 0;
+        indexNotifc = 8;
+        notification();
     } else if (cmd[0] == 70 && cmdsize == 1) {  // "F" - custom fct
         reg_val = DS3231_get_addr(0x5);
+        reg_gval = reg_val;
         Serial.print("orig ");
         Serial.print(reg_val,DEC);
         Serial.print("month is ");
         Serial.println(bcdtodec(reg_val & 0x1F),DEC);
+        stadoNotifc = 0;
+        indexNotifc = 9;
+        notification();
     } else if (cmd[0] == 71 && cmdsize == 1) {  // "G" - set aging status register
         DS3231_set_aging(0);
     } else if (cmd[0] == 83 && cmdsize == 1) {  // "S" - get status register
         Serial.print("status reg is ");
         Serial.println(DS3231_get_sreg(), DEC);
+        stadoNotifc = 0;
+        indexNotifc = 10;
+        notification();
     } else {
         Serial.print("unknown command prefix ");
         Serial.println(cmd[0]);
         Serial.println(cmd[0], DEC);
+        stadoNotifc = 0;
+        indexNotifc = 11;
+        notification();
     }
 }
 
@@ -410,51 +417,50 @@ if (stadoDisplay == 1){
 }
 void home3 (){
 
-Wire.beginTransmission(MPU);
-Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
-Wire.endTransmission(false);
-//Solicita os dados do sensor
-Wire.requestFrom(MPU,14,true);
-//Armazena o valor dos sensores nas variaveis correspondentes
-AcX=Wire.read()<<8|Wire.read();  //0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
-AcY=Wire.read()<<8|Wire.read();  //0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
-AcZ=Wire.read()<<8|Wire.read();  //0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
-Tmp=Wire.read()<<8|Wire.read();  //0x41 (TEMP_OUT_H) & 0x42 (TEMP_OUT_L)
-GyX=Wire.read()<<8|Wire.read();  //0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
-GyY=Wire.read()<<8|Wire.read();  //0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
-GyZ=Wire.read()<<8|Wire.read();  //0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
-//Envia valor X do acelerometro para a serial e o LCD
-Serial.print("AcX = "); Serial.print(AcX);
-//Envia valor Y do acelerometro para a serial e o LCD
-Serial.print(" | AcY = "); Serial.print(AcY);
-//Envia valor Z do acelerometro para a serial e o LCD
-Serial.print(" | AcZ = "); Serial.print(AcZ);
-//Envia valor da temperatura para a serial e o LCD
-//Calcula a temperatura em graus Celsius
-Serial.print(" | Tmp = "); Serial.print(Tmp/340.00+36.53);
-//Envia valor X do giroscopio para a serial e o LCD
-Serial.print(" | GyX = "); Serial.print(GyX);
-//Envia valor Y do giroscopio para a serial e o LCD
-Serial.print(" | GyY = "); Serial.print(GyY);
-//Envia valor Z do giroscopio para a serial e o LCD
-Serial.print(" | GyZ = "); Serial.println(GyZ);
-if (stadoDisplay == -1){
+    Wire.beginTransmission(MPU);
+    Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
+    Wire.endTransmission(false);
+    //Solicita os dados do sensor
+    Wire.requestFrom(MPU,14,true);
+    //Armazena o valor dos sensores nas variaveis correspondentes
+    AcX=Wire.read()<<8|Wire.read();  //0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
+    AcY=Wire.read()<<8|Wire.read();  //0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
+    AcZ=Wire.read()<<8|Wire.read();  //0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
+    Tmp=Wire.read()<<8|Wire.read();  //0x41 (TEMP_OUT_H) & 0x42 (TEMP_OUT_L)
+    GyX=Wire.read()<<8|Wire.read();  //0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
+    GyY=Wire.read()<<8|Wire.read();  //0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
+    GyZ=Wire.read()<<8|Wire.read();  //0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
+    //Envia valor X do acelerometro para a serial e o LCD
+    Serial.print("AcX = "); Serial.print(AcX);
+    //Envia valor Y do acelerometro para a serial e o LCD
+    Serial.print(" | AcY = "); Serial.print(AcY);
+    //Envia valor Z do acelerometro para a serial e o LCD
+    Serial.print(" | AcZ = "); Serial.print(AcZ);
+    //Envia valor da temperatura para a serial e o LCD
+    //Calcula a temperatura em graus Celsius
+    Serial.print(" | Tmp = "); Serial.print(Tmp/340.00+36.53);
+    //Envia valor X do giroscopio para a serial e o LCD
+    Serial.print(" | GyX = "); Serial.print(GyX);
+    //Envia valor Y do giroscopio para a serial e o LCD
+    Serial.print(" | GyY = "); Serial.print(GyY);
+    //Envia valor Z do giroscopio para a serial e o LCD
+    Serial.print(" | GyZ = "); Serial.println(GyZ);
+    if (stadoDisplay == -1){
               tft.fillRect(24, 25, 80, 60, BLACK);
               tft.setCursor(25, 40);
               tft.setTextScale(3);
               tft.setTextColor(WHITE);
               tft.print(AcX);
               delay(1000);
+    }else{
 
-}else{
-
-}
+    }
 
 }
 
 void notification(){
 
-  if (indexNotifc == 1){
+  if (indexNotifc == 1){ //Mostra "Time Set"
         if (stadoNotifc == 0){
         tft.setCursor(CENTER, 108);
         tft.setTextScale(2);
@@ -463,7 +469,7 @@ void notification(){
         stadoNotifc = 1;
         }else{
         }
-  }else if (indexNotifc == 2){
+  }else if (indexNotifc == 2){ //Mostra o Alarm 1
         if (stadoNotifc == 0){
         tft.setCursor(CENTER, 108);
         tft.setTextScale(1);
@@ -472,7 +478,7 @@ void notification(){
         stadoNotifc = 1;
         }else{
         }
-  }else if (indexNotifc == 3){
+  }else if (indexNotifc == 3){ //Mostra o Alarm 2
         if (stadoNotifc == 0){
         tft.setCursor(CENTER, 108);
         tft.setTextScale(1);
@@ -481,7 +487,7 @@ void notification(){
         stadoNotifc = 1;
         }else{
         }
-  }else if(indexNotifc == 4){
+  }else if(indexNotifc == 4){ //Mostra o aging reg, seja lá o que isso for
         if (stadoNotifc == 0){
         tft.setCursor(CENTER, 108);
         tft.setTextScale(1);
@@ -490,6 +496,71 @@ void notification(){
         stadoNotifc = 1;
         }else{
         }
-
-}
+  }else if(indexNotifc == 5){ //Mostra o Alarm que foi setado
+        if (stadoNotifc == 0){
+        tft.setCursor(CENTER, 108);
+        tft.setTextScale(1);
+        tft.setTextColor(WHITE);
+        tft.print(notifc);
+        stadoNotifc = 1;
+        }else{
+        }
+   }else if(indexNotifc == 6){ //Mostra o Alarm 2 que foi setado
+         if (stadoNotifc == 0){
+         tft.setCursor(CENTER, 108);
+         tft.setTextScale(1);
+         tft.setTextColor(WHITE);
+         tft.print(notifc);
+         stadoNotifc = 1;
+         }else{
+         }
+    }else if(indexNotifc == 7){ //Mostra a temperatura
+          if (stadoNotifc == 0){
+          tft.setCursor(CENTER, 108);
+          tft.setTextScale(1);
+          tft.setTextColor(WHITE);
+          tft.print(DS3231_get_treg(), DEC);
+          stadoNotifc = 1;
+          }else{
+          }
+     }else if(indexNotifc == 8){ //Mostra "Status Reseted"
+           if (stadoNotifc == 0){
+           tft.setCursor(CENTER, 108);
+           tft.setTextScale(1);
+           tft.setTextColor(WHITE);
+           tft.print("Status Reseted");
+           stadoNotifc = 1;
+           }else{
+           }
+      }else if(indexNotifc == 9){ //Mostra o Alarm que foi setado
+            if (stadoNotifc == 0){
+            tft.setCursor(CENTER, 108);
+            tft.setTextScale(1);
+            tft.setTextColor(WHITE);
+            tft.print("orig ");
+            tft.print(reg_gval,DEC);
+            tft.print("month is ");
+            tft.println(bcdtodec(reg_gval & 0x1F),DEC);
+            stadoNotifc = 1;
+            }else{
+            }
+       }else if(indexNotifc == 10){ //Mostra o status do reg
+             if (stadoNotifc == 0){
+             tft.setCursor(CENTER, 108);
+             tft.setTextScale(1);
+             tft.setTextColor(WHITE);
+             tft.print(DS3231_get_sreg(), DEC);
+             stadoNotifc = 1;
+             }else{
+             }
+        }else if(indexNotifc == 11){ //Mostra "Comando Desconhecido"
+              if (stadoNotifc == 0){
+              tft.setCursor(CENTER, 108);
+              tft.setTextScale(1);
+              tft.setTextColor(WHITE);
+              tft.print("Comando Desconhecido");
+              stadoNotifc = 1;
+              }else{
+              }
+         }
 }
