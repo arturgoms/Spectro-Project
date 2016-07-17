@@ -197,6 +197,11 @@ void rtc(void) {
     }
       // SHOW HOME SCREEN
 
+
+              tft.drawCircle(57, 10, 2, 0xFFFF);
+              tft.fillCircle(64, 10, 2, 0xFFFF);
+              tft.drawCircle(71, 10, 2, 0xFFFF);
+
               Serial.println(buff);
               prev = now;
           if (stadoDisplay == 0){
