@@ -207,6 +207,18 @@ void rtc(void) {
           if (stadoDisplay == 0){
               tft.fillRect(24, 39, 80, 45, BLACK);
 
+              tft.setCursor(41, 25);
+              tft.setTextScale(1);
+              tft.setTextColor(WHITE);
+              tft.print(t.mon);
+              tft.setCursor(CENTER, 20);
+              tft.setTextScale(2);
+              tft.setTextColor(WHITE);
+              tft.print(t.mday);
+              tft.setCursor(78, 25);
+              tft.setTextScale(1);
+              tft.setTextColor(WHITE);
+              tft.print(t.year);
 
               if (t.hour<10) {
                 tft.setCursor(26, 40);
