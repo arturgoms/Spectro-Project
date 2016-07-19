@@ -578,7 +578,7 @@ void notification(){
               tft.setCursor(CENTER, 108);
               tft.setTextScale(1);
               tft.setTextColor(WHITE);
-              tft.print("Comando Desconhecido");
+              tft.print("Desconhecido Comando");
               stadoNotifc = 1;
               }else{
               }
