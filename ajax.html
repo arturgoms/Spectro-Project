@@ -1,0 +1,20 @@
+<script type='text/javascript'>
+var doInterval;
+function getfile() {
+  $.ajax({
+    url: "file.txt",
+    complete: function(request){
+      $("#textdiv").html(request.responseText);
+    }
+  });
+}
+doInterval = setInterval(getfile, 20000);
+</script>
+<div id="textdiv"></div>
+new Ajax.PeriodicalUpdater('logger', 'path/to_file.php',
+{ 
+    method:'post',
+    parameters: {sender:'mrigesh',reciever:'browser'},
+    frequency: 20,
+    decay: 2
+});
