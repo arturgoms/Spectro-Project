@@ -70,11 +70,11 @@
     </header>
 
     <script type="text/javascript">
-		function atualiza(n){
-			$('#temperatura').load('temperatura.php'));
+		function atualiza(){
+			$('#temperatura').load('temperatura.php');
 		}
 		$(document).ready(function() {
-			setInterval(function() { atualiza($('#temperatura').text()); }, 1000);
+			setInterval(function() { atualiza(); }, 1000);
 		})
 </script>
     <section class="bg-primary" id="about">
