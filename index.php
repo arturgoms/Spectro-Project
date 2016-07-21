@@ -8,8 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
         <title>Controle Raspberry</title>
 
     <!-- Bootstrap Core CSS -->
@@ -21,6 +20,39 @@
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
     <link href="css/creative.min.css" rel="stylesheet">
+    <script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+	    $(document).ready(function() {
+            var timer = setInterval( updateDiv, 1000);
+            var counter = 0;  //only here so we can see that the div is being updated if the same error is thrown
+
+            function updateDiv() {
+                var messageDiv = $('#temperatura');
+                $.ajax({
+                        type: 'GET',
+                        async: false,
+                        url: "/home/pi/Desktop/read/file.txt",
+                        cache: false,
+                        success: function(result) {
+                            counter++;
+                            messageDiv.empty();
+                            messageDiv.append(result);                        
+                        
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            counter++;
+                            messageDiv.empty();
+                            messageDiv.append("thrown error: " + thrownError);
+                            messageDiv.append("<br />");
+                            messageDiv.append("status text: " + xhr.statusText);
+                            messageDiv.append("<br />");
+                            messageDiv.append("counter = " + counter);
+                        }
+                });
+            }   
+
+        });
+    </script>
 </head>
 
 <body id="page-top">
@@ -69,25 +101,15 @@
         </div>
     </header>
 
-    <script type="text/javascript">
-		function atualiza(n){
-			$('#temperatura').load('temperatura.php'));
-		}
-		$(document).ready(function() {
-			setInterval(function() { atualiza($('#temperatura').text()); }, 1000);
-		})
-</script>
     <section class="bg-primary" id="about">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">Leitura da temperatura.</h2>
                     <hr class="light">
-		   <div id= "temperatura">
-                    <p class="text-faded"><?php echo file_get_contents("/home/pi/Desktop/read/file.txt");?></p>
-		   </div>
-		    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Legal!</a>
-	      </div>
+                    <p class="text-faded">Aqui temos um exemplo de como podemos fazer a leitura de sensores através dos pinos da rasp.</p>
+                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Legal!</a>
+                </div>
             </div>
         </div>
     </section>
@@ -98,7 +120,7 @@
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Leitura da humidade</h2>
                     <hr class="primary">
-                    <p>Este é outro exemplo</p>
+                    <div id="temperatura"></div>
                     <a href="#portfolio" class="btn btn-primary btn-xl page-scroll">WOW</a>
                 </div>
             </div>
