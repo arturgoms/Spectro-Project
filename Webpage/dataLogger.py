@@ -7,6 +7,7 @@ def getSerial():
     try:
         port = serial.Serial('/dev/ttys0', baudrate=9600, timeout=1)
         while True:
+            print ("Lendo Dados")
             data = port.readline()
             temperatura, altitude = data.split('separando')
             with open ("temperatura.txt", "w") as f:
