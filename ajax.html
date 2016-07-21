@@ -1,20 +1,56 @@
-<script type='text/javascript'>
-var doInterval;
-function getfile() {
-  $.ajax({
-    url: "file.txt",
-    complete: function(request){
-      $("#textdiv").html(request.responseText);
-    }
-  });
-}
-doInterval = setInterval(getfile, 20000);
-</script>
-<div id="textdiv"></div>
-new Ajax.PeriodicalUpdater('logger', 'path/to_file.php',
-{ 
-    method:'post',
-    parameters: {sender:'mrigesh',reciever:'browser'},
-    frequency: 20,
-    decay: 2
-});
+<script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+	    $(document).ready(function() {
+            var timer = setInterval( updateDiv, 1000);
+	    var timer = setInterval( updateDiv2, 1000);
+            var counter = 0;  //only here so we can see that the div is being updated if the same error is thrown
+            function updateDiv() {
+                var messageDiv = $('#temperatura');
+                $.ajax({
+                        type: 'GET',
+                        async: false,
+                        url: "temperatura.txt",
+                        cache: false,
+                        success: function(result) {
+                            counter++;
+                            messageDiv.empty();
+                            messageDiv.append(result);                        
+                        
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            counter++;
+                            messageDiv.empty();
+                            messageDiv.append("thrown error: " + thrownError);
+                            messageDiv.append("<br />");
+                            messageDiv.append("status text: " + xhr.statusText);
+                            messageDiv.append("<br />");
+                            messageDiv.append("counter = " + counter);
+                        }
+                });
+            }   
+	   function updateDiv2() {
+                var messageDiv = $('#altitude');
+                $.ajax({
+                        type: 'GET',
+                        async: false,
+                        url: "altitude.txt",
+                        cache: false,
+                        success: function(result) {
+                            counter++;
+                            messageDiv.empty();
+                            messageDiv.append(result);                        
+                        
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            counter++;
+                            messageDiv.empty();
+                            messageDiv.append("thrown error: " + thrownError);
+                            messageDiv.append("<br />");
+                            messageDiv.append("status text: " + xhr.statusText);
+                            messageDiv.append("<br />");
+                            messageDiv.append("counter = " + counter);
+                        }
+                });
+            }   
+        });
+    </script>
