@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include<string.h>
 #include <unistd.h>
-#include <sys/types.h> 
+#include <sys/types.h>
 #include<sys/socket.h>
 #include<arpa/inet.h>
 #include <stdbool.h>
@@ -46,7 +46,7 @@ int main(void)
 	if (socketCliente < 0){
 	    erroAplicacao("Erro na abertura do socket");
 	}
-	
+
 	servidorEndereco.sin_addr.s_addr = inet_addr("192.168.132.106");
 	servidorEndereco.sin_family = AF_INET;
 	servidorEndereco.sin_port = htons( 1234 );
@@ -55,7 +55,7 @@ int main(void)
 	{
 		erroAplicacao("Erro na abertura do socket");
 	}
-	
+
 	printf("Conectado com o Servidor\n");
 	bzero(mensagem,256);
 	bzero(servidorMensagem,256);
@@ -64,7 +64,7 @@ int main(void)
 	bzero(mensagem,256);
 	if (digitalRead(BTN) > 0){
 		strcpy(mensagem,"0-Botao esta precionado#");
-		write(socketCliente , mensagem , sizeof(mensagem));	
+		write(socketCliente , mensagem , sizeof(mensagem));
 	}else{
 		strcpy(mensagem,"0-Botao nao esta precionado#");
 		write(socketCliente , mensagem , sizeof(mensagem));
@@ -78,7 +78,7 @@ bzero(mensagem,256);
 		write(socketCliente , mensagem , sizeof(mensagem));
 		}
 bzero(servidorMensagem,256);
-	
+
 	while(true)
 	{
 		bzero(mensagem,256);
@@ -93,21 +93,21 @@ bzero(servidorMensagem,256);
 				}
 				puts("Resposta servidor:");
 				puts(servidorMensagem);
-				
-			
+
+
 					digitalWrite (LED, HIGH) ;	// On
 	    	   		delay (500) ;		// mS
 	    	   		digitalWrite (LED, LOW) ;	// Off
 	           		delay (500) ;
 					printf("LED Aceso");
-			
+
 
 				if (strstr(servidorMensagem,"sair") !=NULL){
 					ler = 2;
-				} 
-				
+				}
+
 				bzero(servidorMensagem,256);
-			
+
 		}menu();
 }
 
@@ -116,7 +116,7 @@ bzero(servidorMensagem,256);
 			while (escrever == 1){
 				if (digitalRead(BTN) > 0){
 					strcpy(mensagem,"Botao esta precionado");
-					write(socketCliente , mensagem , sizeof(mensagem));	
+					write(socketCliente , mensagem , sizeof(mensagem));
 				}else{
 					strcpy(mensagem,"Botao nao esta precionado");
 					write(socketCliente , mensagem , sizeof(mensagem));
@@ -135,11 +135,11 @@ bzero(servidorMensagem,256);
 
 				if (strcpy(mensagem,"sair") ==0){
 					escrever = 2;
-			} 
+			}
 			menu();
 		}
 	}
-	
+
 	close(socketCliente);
 	return 0;
 }
@@ -153,7 +153,5 @@ void menu(void){
 		printf(">                             \n<");
 		scanf("%d" , &menuStado);
 
-			
+
 }
-
-
