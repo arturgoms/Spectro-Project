@@ -44,5 +44,6 @@ void loop() {
     Serial.print(bmp.readSealevelPressure());
     Serial.print(";");
     Serial.print(bmp.readAltitude(101500));
+    Serial.print("\n");
     delay(1000);
 }
