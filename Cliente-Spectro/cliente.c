@@ -25,10 +25,12 @@ void erroAplicacao(const char *msg)
 
 int main(void)
 {
+	Serial.begin(9600);
 	wiringPiSetup() ;
 	bool stadoLed;
 	int socketCliente;
 	struct sockaddr_in servidorEndereco;
+	char readSerial[256];
 	char mensagem[256];
 	char servidorMensagem[256];
 	char** mensagemServidor;
@@ -47,9 +49,9 @@ int main(void)
 	    erroAplicacao("Erro na abertura do socket");
 	}
 
-	servidorEndereco.sin_addr.s_addr = inet_addr("192.168.132.106");
+	servidorEndereco.sin_addr.s_addr = inet_addr("192.168.0.128"); // Ip do Servidor
 	servidorEndereco.sin_family = AF_INET;
-	servidorEndereco.sin_port = htons( 1234 );
+	servidorEndereco.sin_port = htons( 1234 ); //Porta do Servidor
 
 	if (connect(socketCliente , (struct sockaddr *)&servidorEndereco , sizeof(servidorEndereco)) < 0)
 	{
@@ -62,38 +64,27 @@ int main(void)
 	strcpy(mensagem,"pi#");
 	write(socketCliente , mensagem , sizeof(mensagem));
 	bzero(mensagem,256);
-	if (digitalRead(BTN) > 0){
-		strcpy(mensagem,"0-Botao esta precionado#");
-		write(socketCliente , mensagem , sizeof(mensagem));
-	}else{
-		strcpy(mensagem,"0-Botao nao esta precionado#");
-		write(socketCliente , mensagem , sizeof(mensagem));
-	}
-bzero(mensagem,256);
-	if (digitalRead(LED) > 0){
-		strcpy(mensagem,"0-Led aceso#");
-		write(socketCliente , mensagem , sizeof(mensagem));
-	}else{
-		strcpy(mensagem,"0-Led apagado#");;
-		write(socketCliente , mensagem , sizeof(mensagem));
-		}
+
+
 bzero(servidorMensagem,256);
 
 	while(true)
 	{
 		bzero(mensagem,256);
 		bzero(servidorMensagem,256);
-		menu();
-		if( menuStado == 1){ //Ler
-
-			while (ler == 1){
-				if( read(socketCliente , servidorMensagem , 255) < 0)
-				{
-					erroAplicacao("Falha no recebimento");
-				}
+		//menu();
+		Serial.read()
+		if( read(socketCliente , servidorMensagem , 255) < 0)
+		{
+			erroAplicacao("Falha no recebimento");
+		}
 				puts("Resposta servidor:");
 				puts(servidorMensagem);
-
+				if (Serial.available() > 0) {
+                readSerial = Serial.read();
+                Serial.print("I received: ");
+                Serial.println(incomingByte, DEC);
+        }
 
 					digitalWrite (LED, HIGH) ;	// On
 	    	   		delay (500) ;		// mS
@@ -108,9 +99,10 @@ bzero(servidorMensagem,256);
 
 				bzero(servidorMensagem,256);
 
-		}menu();
+
 }
 
+		/*
 		if( menuStado == 2){ // Escrever
 			printf(" deu ler");
 			while (escrever == 1){
@@ -138,11 +130,10 @@ bzero(servidorMensagem,256);
 			}
 			menu();
 		}
-	}
+	}*/
 
 	close(socketCliente);
 	return 0;
-}
 }
 
 void menu(void){
