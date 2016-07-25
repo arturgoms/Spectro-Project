@@ -3,8 +3,6 @@ Spectro Project v0.1 Alpha
 [![GitHub version](https://img.shields.io/badge/release-initial-brightgreen.svg)](https://github.com/arturgoms/Spectro-Project)<br>
 O Projeto:
 -------
-__________
-<br>
 O projeto conciste em um conjunto de plataformas trabalhando juntas para atualizar o `Spectro Watch`(que é só um exemplo), cada parte se comunica de uma forma diferente para exemplificar a variedade de formas que podemos executar o projeto. Abaixo temos o esquema de como cada parte irá funcionar:
 
 ![project](http://i64.tinypic.com/245bhc6.png)<br>
