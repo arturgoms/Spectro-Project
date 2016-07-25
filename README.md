@@ -1,7 +1,23 @@
-Spectro Watch DYI v2.0 Alpha
+Spectro Project v0.1 Alpha
 =========
+[![GitHub version](https://img.shields.io/badge/release-initial-brightgreen.svg)](https://github.com/arturgoms/Spectro-Project)
+__________
+<br>
+O Projeto em si:
+----
+<br>
+O projeto conciste em um conjunto de plataformas trabalhando juntas para atualizar o `Spectro Watch`(que é só um exemplo), cada parte se comunica de uma forma diferente para exemplificar a variedade de formas que podemos executar o projeto. Abaixo temos o esquema de como cada parte irá funcionar:
 
-Smarth Watch called Spectro.
+![project](http://i64.tinypic.com/245bhc6.png)<br>
+<br> 
+Como vemos na imagem temos o arduino lendo os sensores e enviando via serial para a raspberry, que por sua vez é o servidor do projeto todo, após receber as leituras do arduino ele envia para o aplicativo no android que por sua vez atualiza por bluetooth o relógio. Pense nas possibilidade :)
+
+__________
+
+<br>
+
+Primeiro protótipo do Spectro Watch:
+-------
 <br>
 In the future he will can do basically display `date` and `time`, set an `alarm`, ring a `buzzer` when the time comes, `temperature`, `barometer`, `altimeter`, `snooze`, `acelerometer`, `gyroscope` and also have `Bluetooth` and `ESP8266` to communication with phones and routers.<br>
 For now we just have `date`, `time`, `temperature`, `barometer`, `altimeter`, `acelerometer` and `gyroscope` all working together with hc05. <br>
