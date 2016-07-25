@@ -8,11 +8,7 @@ O projeto conciste em um conjunto de plataformas trabalhando juntas para atualiz
 ![project](http://i64.tinypic.com/245bhc6.png)<br>
 <br> 
 Como vemos na imagem temos o arduino lendo os sensores e enviando via serial para a raspberry, que por sua vez é o servidor do projeto todo, após receber as leituras do arduino ele envia para o aplicativo no android que por sua vez atualiza por bluetooth o relógio. Pense nas possibilidade :)
-
 __________
-
-<br>
-
 Primeiro protótipo do Spectro Watch:
 -------
 <br>
