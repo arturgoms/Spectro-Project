@@ -11,6 +11,9 @@ Como vemos na imagem temos o arduino lendo os sensores e enviando via serial par
 __________
 Primeiro protótipo do Spectro Watch:
 -------
+
+![main](http://i64.tinypic.com/2wcgsgj.jpg)![main2](http://i67.tinypic.com/330cpk5.jpg)<br>
+
 <br>
 In the future he will can do basically display `date` and `time`, set an `alarm`, ring a `buzzer` when the time comes, `temperature`, `barometer`, `altimeter`, `snooze`, `acelerometer`, `gyroscope` and also have `Bluetooth` and `ESP8266` to communication with phones and routers.<br>
 For now we just have `date`, `time`, `temperature`, `barometer`, `altimeter`, `acelerometer` and `gyroscope` all working together with hc05. <br>
